@@ -8,28 +8,26 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # ubuntu-20.04   # используем старую Ubuntu для совместимости
+    runs-on: ubuntu-latest   # или ubuntu-20.04, но latest уже работает
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install make and dependencies
+    - name: Install make and wget
       run: |
         sudo apt-get update
         sudo apt-get install -y make wget
 
-    - name: Install arm-none-eabi-gcc 5.4.1
+    - name: Download and extract GCC
       run: |
         wget -q https://developer.arm.com/-/media/Files/downloads/gnu-rm/5_4-2016q3/gcc-arm-none-eabi-5_4-2016q3-20160926-linux.tar.bz2
         tar -xjf gcc-arm-none-eabi-5_4-2016q3-20160926-linux.tar.bz2
         echo "$(pwd)/gcc-arm-none-eabi-5_4-2016q3/bin" >> $GITHUB_PATH
-        # Проверяем версию
-        arm-none-eabi-gcc --version
+
+    - name: Verify compiler version
+      run: arm-none-eabi-gcc --version   # теперь путь уже в окружении
 
     - name: Build project
       run: make
-      # Если нужны дополнительные переменные окружения, добавьте их здесь
-      # env:
-      #   TARGET: my_target
       
