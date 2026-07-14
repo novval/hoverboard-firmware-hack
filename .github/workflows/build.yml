@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest   # или ubuntu-20.04, но latest уже работает
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -26,8 +26,14 @@ jobs:
         echo "$(pwd)/gcc-arm-none-eabi-5_4-2016q3/bin" >> $GITHUB_PATH
 
     - name: Verify compiler version
-      run: arm-none-eabi-gcc --version   # теперь путь уже в окружении
+      run: arm-none-eabi-gcc --version
 
     - name: Build project
       run: make
-      
+
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: hoverboard-firmware
+        path: build/hover.*
+        
