@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04   # используем старую Ubuntu для совместимости
+    runs-on: ubuntu-latest # ubuntu-20.04   # используем старую Ubuntu для совместимости
 
     steps:
     - name: Checkout code
